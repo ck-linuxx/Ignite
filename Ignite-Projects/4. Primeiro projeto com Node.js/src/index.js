@@ -7,6 +7,21 @@ app.use(express.json())
 
 const custumers = [] //database
 
+// Middleware
+function verifyIfExistAccountCPF(request, response, next){
+  const {cpf} = request.header
+  const customer = custumers.find(customer => customer.cpf === cpf)
+
+  if(!customer){
+    return response.status(400).json({ error: "Customer not found" })
+  }
+
+  request.customer = customer //deixar o customer visivel para as rotas filhas
+
+  return next()
+
+}
+
 //criação da conta
 app.post("/account", (request,response) => {
   const { cpf, name } = request.body
@@ -29,15 +44,8 @@ app.post("/account", (request,response) => {
 
 })
 
-app.get("/statement", (request, response) => {
-  const {cpf} = request.header
-
-  const customer = custumers.find(customer => customer.cpf === cpf)
-
-  if(!customer){
-    return response.status(400).json({ error: "Customer not found" })
-  }
-
+app.get("/statement",verifyIfExistAccountCPF, (request, response) => {
+  const { customer } = request //exemplo de rota filha 
   return response.json(customer.statement)
 })
 
