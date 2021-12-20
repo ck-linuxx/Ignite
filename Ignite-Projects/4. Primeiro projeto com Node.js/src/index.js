@@ -38,9 +38,9 @@ function getBalance(statement) {
 //criação da conta
 app.post("/account", (request,response) => {
   const { cpf, name } = request.body
-  const custumerAlreadyExists = custumers.some(
-      (customer) => customer.cpf === cpf
-    )   //some(): faz uma busca e retorna true or false
+  const custumerAlreadyExists = custumers.some((customer) => customer.cpf === cpf)  //some(): faz uma busca e retorna true or false
+
+    console.log(custumerAlreadyExists)
 
     if(custumerAlreadyExists){
       return response.status(400).json({ error: "Customer already exists!" })
@@ -55,6 +55,11 @@ app.post("/account", (request,response) => {
 
   return response.status(201).send()
 
+})
+
+//debug
+app.get("/test", (request, response) => {
+  return response.json(custumers)
 })
 
 app.get("/statement",verifyIfExistAccountCPF, (request, response) => {
@@ -113,5 +118,20 @@ app.get("/statement/date", verifyIfExistAccountCPF, (request, response) => {
 
   return response.json(statement)
 }) 
+
+app.put("/account", verifyIfExistAccountCPF,(request, response) => {
+  const { name } = request.body
+  const { customer } = request
+
+  customer.name = name
+
+  return response.status(201).send()
+})
+
+app.get("/account", verifyIfExistAccountCPF,(request, response) => {
+  const { customer } = request
+
+  return response.json(customer)
+})
 
 app.listen(3333)

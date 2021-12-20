@@ -7,7 +7,6 @@ app.use(express.json())
 app.get("/courses", (request, response) => {
   const query = request.query
   console.log(query)
-
   return response.json([
     "Curso 1", "Curso 2", "Curso 3"
   ])
@@ -44,4 +43,3 @@ app.delete("/courses/:id", (request, response) => {
 })
 
 app.listen(3333)
-
