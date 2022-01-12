@@ -23,7 +23,7 @@ class ImportCategoryUseCase {
         const [ name, description ] = line 
         categories.push({
           name,
-          description,
+          description
         })
       })
       .on("end", () => {
@@ -39,7 +39,7 @@ class ImportCategoryUseCase {
     const categories = await this.loadCategories(file)
     
     categories.map(async category => {
-      const { name, description } = category
+      const { name,description } = category
 
       const existsCategory = this.categoriesRepository.findByName(name)
 
