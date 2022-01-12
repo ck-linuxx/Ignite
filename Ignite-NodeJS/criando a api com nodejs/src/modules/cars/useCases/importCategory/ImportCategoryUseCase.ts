@@ -23,7 +23,7 @@ class ImportCategoryUseCase {
         const [ name, description ] = line 
         categories.push({
           name,
-          description
+          description,
         })
       })
       .on("end", () => {
