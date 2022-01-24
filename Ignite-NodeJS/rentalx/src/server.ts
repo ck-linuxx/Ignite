@@ -4,7 +4,7 @@ import swaggerUi from "swagger-ui-express"
 import { routes } from "./routes";
 import swaggerFile from "./swagger.json"
 
-import "./database"
+import "./database/index"
 
 const app = express()
  
